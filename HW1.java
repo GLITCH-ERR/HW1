@@ -1,7 +1,7 @@
 
 /*
  * *** PLACE YOUR NAME / SECTION  HERE ***
- *
+ *      Philip Garbis  / COMP 272-002
  * Homework # 1 (Programming Assignment). This Java class defines some basic
  * manipulation operations on Linked-Lists and Stacks.
  *
@@ -11,6 +11,7 @@
  * specific number returned.
  */
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class HW1 {
@@ -88,6 +89,19 @@ public class HW1 {
         public void removeElementsLT ( int ltValue ) {
 
             // YOUR CODE GOES HERE
+            while (head != null && head.data < ltValue) {
+                head = head.next; // This will remove all elements that are at the head location that is also less than ltValue
+            }
+
+            Node current = head;
+
+            while (current != null && current.next != null) {
+                if (current.next.data < ltValue) {
+                    current.next = current.next.next; // This will remove all elements that are after the current node location that is also less than ltValue
+                } else {
+                    current = current.next;
+                }
+            }
 
             return;
         }
@@ -101,6 +115,19 @@ public class HW1 {
         public void removeElement ( int value ) {
 
             // YOUR CODE GOES HERE
+            while (head != null && head.data == value) {
+                head = head.next; // This will remove all elements that are at the head location that are also equal to value
+            }
+
+            Node current = head;
+
+            while (current != null && current.next != null) {
+                if (current.next.data == value) {
+                    current.next = current.next.next; // This will remove all elements that are after the current node location that are also equal to value
+                } else {
+                    current = current.next;
+                }
+            }
 
             return;
         }
@@ -161,7 +188,19 @@ public class HW1 {
             input = input.toLowerCase().replaceAll("\\s+", "");
 
             // Your CODE GOES HERE
-            return false;
+
+            // Pushes all the characters into the stack.
+            for (char c : input.toCharArray()) {
+                stack.push(c);
+            }
+            // Checks if the current string is a palindrome.
+            for (char c : input.toCharArray()) {
+                if (stack.pop() != c) {
+                    return false; // If not, a mismatch was found, and is not a palindrome.
+                }
+            }
+
+            return true; // If no mismatches were found, then the current string is a palindrome.
         }
 
 
@@ -183,7 +222,21 @@ public class HW1 {
         public static int findLargestK(Stack<Integer> stack, int k) {
 
             // YOUR CODE GOES HERE
-            return -1;
+            Stack<Integer> tempStack = new Stack<>();
+            int largestIndex = -1;
+            int originalSize = stack.size();
+
+            // Convert the stack to a list to track original indices before popping
+            ArrayList<Integer> originalList = new ArrayList<>(stack);
+
+            // Traverses the stack and check for largest index of 'k'
+            for (int i = 0; i <= originalSize - 1; i++) {
+                if (originalList.get(i) == k) {
+                    largestIndex = i;  // Updates the largest index for k
+                }
+            }
+            
+            return largestIndex;  // Returns the largest index of 'k'
         }
 
     }  // End class Stacks
@@ -212,14 +265,18 @@ public class HW1 {
          * Select the correct option listed below:
          *   1. O(N * M) time, O(1) space
          *   2. O(N + M) time, O(N + M) space
-         *   3. O(N + M) time, O(1) space
+         *   3. O(N + M) time, O(1) space   <---This one
          *   4. O(N * M) time, O(N + M) space
          *
          * TODO: return the answer (which option is correct), in the return statement
         */
 
         // RETURN THE CORRECT OPTION NUMBER LISTED ABOVE
-        return -1;
+        /*
+         * The complexity is O(N + M) time because the loops run independently.
+         * The space complexity is O(1) since no additional space grows with input size.
+         */
+        return 3; // O(N + M) time, O(1) space
     }
 
 
@@ -232,7 +289,7 @@ public class HW1 {
         /*
          * Select the correct option listed below:
          *   1. O(N) time
-         *   2. O(N log N) time
+         *   2. O(N log N) time   <---This one
          *   3. O(N^2) time
          *   4. O(N^2Log n) time
          *
@@ -240,7 +297,11 @@ public class HW1 {
          */
 
         // RETURN THE CORRECT OPTION LISTED ABOVE
-        return -1;
+        /*
+         * Outer loop runs approximately n/2 times, and the inner loop runs log(n) times.
+         * Therefore, the overall complexity is O(N log N).
+         */
+        return 2; // O(N log N) time
     }
 
 }
